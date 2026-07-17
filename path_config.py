@@ -67,15 +67,10 @@ CAMINHOS = {
 
 """
 # No lugar de:
-caminho = r'C:\Users\Angelus\Dropbox\...\info_geral2026-1.xlsx'
-df = pd.read_excel(caminho)
+# caminho = C:\\Users\\Angelus\\Dropbox\\...\\info_geral2026-1.xlsx
+# df = pd.read_excel(caminho)
 
 # Use:
-from path_config import get_path
-caminho = get_path('info_geral2026-1.xlsx')
-df = pd.read_excel(caminho)
-
-# Ou ainda mais simples:
-from path_config import CAMINHOS
-df = pd.read_excel(CAMINHOS['info_geral'])
+# from path_config import CAMINHOS
+# df = pd.read_excel(CAMINHOS['info_geral'])
 """
