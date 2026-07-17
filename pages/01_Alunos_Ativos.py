@@ -67,10 +67,10 @@ st.markdown("---")
 # ============================================================================
 
 try:
-    caminho_arquivo = r"C:\Users\Angelus\Dropbox\prouenf\arquivos de análise\T6 - Aplicativo Coordenação\Sistema_V1\streamlit_local\bases\info_geral2026-1.xlsx"
+    from path_config import CAMINHOS
     
     # Ler apenas a primeira aba (índice 0)
-    df = pd.read_excel(caminho_arquivo, sheet_name=0)
+    df = pd.read_excel(CAMINHOS['info_geral'], sheet_name=0)
     
     # Selecionar colunas necessárias
     colunas_desejadas = ['Matrícula', 'Nome', 'Ingresso', 'Cota']

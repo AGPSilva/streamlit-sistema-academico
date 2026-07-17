@@ -91,15 +91,13 @@ st.markdown("---")
 @st.cache_data
 def carregar_bases():
     """Carrega as bases de dados de rendimento"""
-    caminho_base = r"C:\Users\Angelus\Dropbox\prouenf\arquivos de análise\T6 - Aplicativo Coordenação\Sistema_V1\Bases"
+    from path_config import CAMINHOS
     
     # Carregar coeficientes de rendimento
-    caminho_coef = f"{caminho_base}\\coef_rend2026-1.xlsx"
-    rend_coef_df = pd.read_excel(caminho_coef)
+    rend_coef_df = pd.read_excel('bases/coef_rend2026-1.xlsx')
     
     # Carregar períodos de rendimento
-    caminho_per = f"{caminho_base}\\periodo_rend2026-1.xlsx"
-    rend_per_df = pd.read_excel(caminho_per)
+    rend_per_df = pd.read_excel('bases/periodo_rend2026-1.xlsx')
     
     return rend_coef_df, rend_per_df
 
