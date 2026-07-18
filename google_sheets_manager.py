@@ -3,7 +3,8 @@
 # ============================================================================
 # Gerenciador de operações com Google Sheets
 # Leitura, escrita, atualização e deleção de dados
-
+import streamlit as st
+import os
 import gspread
 from google.oauth2.service_account import Credentials
 import pandas as pd
@@ -19,37 +20,37 @@ class GoogleSheetsManager:
     Fornece métodos para CRUD (Create, Read, Update, Delete)
     """
     
-    def __init__(self, credenciais_path: str = 'credenciais/google_sheets_creds.json'):
-        """
-        Inicializa o gerenciador com autenticação
-    
-        Args:
-            credenciais_path: caminho do arquivo JSON de credenciais
-    
-        Raises:
-            Exception: se o arquivo de credenciais não existir
-        """
-    try:
-        import streamlit as st
-        import os
+        def __init__(self, credenciais_path: str = 'credenciais/google_sheets_creds.json'):
+            """
+            Inicializa o gerenciador com autenticação
         
-        # Verificar se está no Streamlit Cloud (possui secrets)
-        if 'type' in st.secrets:
-            # Usar secrets do Streamlit Cloud
-            self.creds = Credentials.from_service_account_info(
-                dict(st.secrets),
-                scopes=['https://www.googleapis.com/auth/spreadsheets']
-            )
-        else:
-            # Usar arquivo local
-            self.creds = Credentials.from_service_account_file(
-                credenciais_path,
-                scopes=['https://www.googleapis.com/auth/spreadsheets']
-            )
+            Args:
+                credenciais_path: caminho do arquivo JSON de credenciais
         
-        self.gc = gspread.authorize(self.creds)
-    except Exception as e:
-        raise Exception(f"Erro ao autenticar com Google Sheets: {e}")
+            Raises:
+                Exception: se o arquivo de credenciais não existir
+            """
+        try:
+            
+            
+            
+            # Verificar se está no Streamlit Cloud (possui secrets)
+            if 'type' in st.secrets:
+                # Usar secrets do Streamlit Cloud
+                self.creds = Credentials.from_service_account_info(
+                    dict(st.secrets),
+                    scopes=['https://www.googleapis.com/auth/spreadsheets']
+                )
+            else:
+                # Usar arquivo local
+                self.creds = Credentials.from_service_account_file(
+                    credenciais_path,
+                    scopes=['https://www.googleapis.com/auth/spreadsheets']
+                )
+            
+            self.gc = gspread.authorize(self.creds)
+        except Exception as e:
+            raise Exception(f"Erro ao autenticar com Google Sheets: {e}")
     
     def abrir_planilha(self, sheet_id: str, sheet_name: str = "Sheet1") -> gspread.Worksheet:
         """
