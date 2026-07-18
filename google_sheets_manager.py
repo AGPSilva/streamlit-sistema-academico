@@ -20,20 +20,17 @@ class GoogleSheetsManager:
     Fornece métodos para CRUD (Create, Read, Update, Delete)
     """
     
-        def __init__(self, credenciais_path: str = 'credenciais/google_sheets_creds.json'):
-            """
-            Inicializa o gerenciador com autenticação
+    def __init__(self, credenciais_path: str = 'credenciais/google_sheets_creds.json'):
+        """
+        Inicializa o gerenciador com autenticação
         
-            Args:
-                credenciais_path: caminho do arquivo JSON de credenciais
+        Args:
+            credenciais_path: caminho do arquivo JSON de credenciais
         
-            Raises:
-                Exception: se o arquivo de credenciais não existir
-            """
+        Raises:
+            Exception: se o arquivo de credenciais não existir
+        """
         try:
-            
-            
-            
             # Verificar se está no Streamlit Cloud (possui secrets)
             if 'type' in st.secrets:
                 # Usar secrets do Streamlit Cloud
