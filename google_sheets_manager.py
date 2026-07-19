@@ -31,21 +31,27 @@ class GoogleSheetsManager:
             Exception: se o arquivo de credenciais não existir
         """
         try:
-            # Verificar se está no Streamlit Cloud (possui secrets)
-            if 'type' in st.secrets:
-                # Usar secrets do Streamlit Cloud
-                self.creds = Credentials.from_service_account_info(
-                    dict(st.secrets),
-                    scopes=['https://www.googleapis.com/auth/spreadsheets']
-                )
-            else:
-                # Usar arquivo local
+            import os
+            
+            # Prioridade 1: Se o arquivo existe, usar ele (LOCAL)
+            if os.path.exists(credenciais_path):
                 self.creds = Credentials.from_service_account_file(
                     credenciais_path,
                     scopes=['https://www.googleapis.com/auth/spreadsheets']
                 )
+            else:
+                # Prioridade 2: Tentar Streamlit Secrets (CLOUD)
+                import streamlit as st
+                if 'type' in st.secrets:
+                    self.creds = Credentials.from_service_account_info(
+                        dict(st.secrets),
+                        scopes=['https://www.googleapis.com/auth/spreadsheets']
+                    )
+                else:
+                    raise FileNotFoundError(f"Arquivo {credenciais_path} não encontrado e Secrets não disponível")
             
             self.gc = gspread.authorize(self.creds)
+        
         except Exception as e:
             raise Exception(f"Erro ao autenticar com Google Sheets: {e}")
     
