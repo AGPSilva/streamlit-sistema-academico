@@ -476,26 +476,22 @@ class ProcessadorRODA:
             df_roda_alunos = self.carregar_roda_alunos()
             df_em_roda = self.ler_google_sheet('eh_roda')
             
-            # Se nenhum aluno está em RODA, retornar todos
-            if df_em_roda.empty:
-                return df_roda_alunos[['matrícula', 'nome', 'ingresso']].copy()
-            
-            # Extrair matrículas de quem já está em RODA
-            matriculas_em_roda = set(df_em_roda['matrícula'].unique())
-            
             # Filtrar alunos que se enquadram mas NÃO estão em RODA
-            df_resultado = df_roda_alunos[
-                ~df_roda_alunos['matrícula'].isin(matriculas_em_roda)
-            ].copy()
+            if not df_em_roda.empty:
+                # Extrair matrículas de quem já está em RODA
+                matriculas_em_roda = set(df_em_roda['matrícula'].unique())
+                
+                # Filtrar
+                df_resultado = df_roda_alunos[
+                    ~df_roda_alunos['matrícula'].isin(matriculas_em_roda)
+                ].copy()
+            else:
+                # Se nenhum está em RODA, usar todos
+                df_resultado = df_roda_alunos.copy()
             
-            # Manter apenas colunas importantes
-            colunas_manter = ['matrícula', 'nome', 'ingresso']
-            
-            # Adicionar colunas de motivo (se existirem)
-            motivos = ['reprovação último período', 'reprovações repetidas', 'ECH', 'EPL']
-            for motivo in motivos:
-                if motivo in df_resultado.columns:
-                    colunas_manter.append(motivo)
+            # Manter colunas importantes
+            colunas_manter = ['matrícula', 'nome', 'ingresso', 
+                            'reprovação último período', 'reprovações repetidas', 'ECH', 'EPL']
             
             # Manter apenas colunas que existem
             colunas_manter = [col for col in colunas_manter if col in df_resultado.columns]
