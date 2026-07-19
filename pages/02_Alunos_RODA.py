@@ -2,6 +2,7 @@
 # pages/02_Alunos_RODA.py - Página de Gerenciamento de Alunos em RODA (BUGFIX)
 # ============================================================================
 # CORREÇÃO: Sempre resetar session_state para o tamanho atual do DataFrame
+# ATUALIZAÇÃO: Adicionadas 4 colunas novas (reprovação último período, reprovações repetidas, ECH, EPL)
 
 import streamlit as st
 import pandas as pd
@@ -297,7 +298,7 @@ if categoria_selecionada == "Alunos já em RODA":
                                     ingresso_input,
                                     True
                                 )
-                                st.success("✅ Aluno incluído em RODA com sucesso!")
+                                st.success("✅ Aluno incluído em RODA com sucesso")
                                 st.rerun()
                         
                         except Exception as e:
@@ -353,7 +354,7 @@ if categoria_selecionada == "Alunos já em RODA":
                                     erros.append(f"{matricula}: {str(e)}")
                             
                             if excluidos > 0:
-                                st.success(f"✅ {excluidos} aluno(s) excluído(s) com sucesso!")
+                                st.success(f"✅ {excluidos} aluno(s) excluído(s) com sucesso")
                             
                             if erros:
                                 st.warning(f"⚠️ Erros: {', '.join(erros)}")
@@ -451,7 +452,7 @@ if categoria_selecionada == "Alunos já em RODA":
                                         ingresso_edit,
                                         True
                                     )
-                                    st.success("✅ Aluno atualizado com sucesso!")
+                                    st.success("✅ Aluno atualizado com sucesso")
                                     st.rerun()
                                 except Exception as e:
                                     st.error(f"❌ Erro ao atualizar: {e}")
@@ -538,7 +539,7 @@ elif categoria_selecionada == "Alunos com matrícula reativada":
                                 ingresso_input,
                                 True
                             )
-                            st.success("✅ Aluno incluído com sucesso!")
+                            st.success("✅ Aluno incluído com sucesso")
                             st.rerun()
                         
                         except Exception as e:
@@ -587,7 +588,7 @@ elif categoria_selecionada == "Alunos com matrícula reativada":
                                     erros.append(f"{matricula}: {str(e)}")
                             
                             if excluidos > 0:
-                                st.success(f"✅ {excluidos} aluno(s) excluído(s)!")
+                                st.success(f"✅ {excluidos} aluno(s) excluído(s)")
                             
                             if erros:
                                 st.warning(f"⚠️ Erros: {', '.join(erros)}")
@@ -669,7 +670,7 @@ elif categoria_selecionada == "Alunos com matrícula reativada":
                                         ingresso_edit,
                                         True
                                     )
-                                    st.success("✅ Aluno atualizado!")
+                                    st.success("✅ Aluno atualizado")
                                     st.rerun()
                                 except Exception as e:
                                     st.error(f"❌ Erro: {e}")
@@ -756,7 +757,7 @@ elif categoria_selecionada == "Alunos com condições especiais":
                                 ingresso_input,
                                 True
                             )
-                            st.success("✅ Aluno incluído com sucesso!")
+                            st.success("✅ Aluno incluído com sucesso")
                             st.rerun()
                         
                         except Exception as e:
@@ -805,7 +806,7 @@ elif categoria_selecionada == "Alunos com condições especiais":
                                     erros.append(f"{matricula}: {str(e)}")
                             
                             if excluidos > 0:
-                                st.success(f"✅ {excluidos} aluno(s) excluído(s)!")
+                                st.success(f"✅ {excluidos} aluno(s) excluído(s)")
                             
                             if erros:
                                 st.warning(f"⚠️ Erros: {', '.join(erros)}")
@@ -887,7 +888,7 @@ elif categoria_selecionada == "Alunos com condições especiais":
                                         ingresso_edit,
                                         True
                                     )
-                                    st.success("✅ Aluno atualizado!")
+                                    st.success("✅ Aluno atualizado")
                                     st.rerun()
                                 except Exception as e:
                                     st.error(f"❌ Erro: {e}")
@@ -913,8 +914,16 @@ elif categoria_selecionada == "Alunos que se enquadram em RODA":
         else:
             st.markdown(f"### 📋 Total de Alunos: {len(df_enquadram)}")
             
-            # Exibir tabela
-            st.dataframe(df_enquadram, use_container_width=True, hide_index=True)
+            # MUDANÇA: Exibir 7 colunas (as 3 originais + as 4 novas)
+            colunas_exibir = ['matrícula', 'nome', 'ingresso', 
+                             'reprovação último período', 'reprovações repetidas', 'ECH', 'EPL']
+            
+            # Verificar quais colunas existem no DataFrame
+            colunas_existentes = [col for col in colunas_exibir if col in df_enquadram.columns]
+            
+            # Exibir tabela com as colunas disponíveis
+            df_exibicao = df_enquadram[colunas_existentes].copy()
+            st.dataframe(df_exibicao, use_container_width=True, hide_index=True)
             
             # Opção de download
             st.markdown("---")
