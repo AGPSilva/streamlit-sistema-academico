@@ -1,5 +1,5 @@
 # ============================================================================
-# pages/02_Alunos_RODA.py - Página de Gerenciamento de Alunos em RODA (BUGFIX)
+# pages/02_Alunos_RODA.py - Página de Gerenciamento de Alunos em RODA (v2.1)
 # ============================================================================
 # CORREÇÃO: Sempre resetar session_state para o tamanho atual do DataFrame
 # ATUALIZAÇÃO: Adicionadas 4 colunas novas (reprovação último período, reprovações repetidas, ECH, EPL)
